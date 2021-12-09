@@ -13,6 +13,7 @@ public:
             ,std::vector<unsigned short>y
             ,const graphoptions &options);
     ~_scatter() = default;
+    void set_options(const graphoptions & options);
     void plot() override;
 
 private:
@@ -24,6 +25,6 @@ private:
     const long double ymax;
     std::vector<unsigned short> x;
     std::vector<unsigned short> y;
-    const graphoptions options;
+    graphoptions options;
 
 };

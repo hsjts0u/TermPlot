@@ -19,8 +19,8 @@ typedef struct graphoptions
     char *title = nullptr;
     unsigned int style = 2;
     unsigned int color = 2;
-    graphoptions(void) = default;
-    ~graphoptions(void) = default;
+    graphoptions() = default;
+    ~graphoptions() = default;
 
 } graphoptions;
 

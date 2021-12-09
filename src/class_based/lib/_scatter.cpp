@@ -1,5 +1,6 @@
 #include "../include/_scatter.hpp"
 
+
 _scatter::_scatter(const size_t height, const size_t width
                   ,const long double xmin, const long double xmax
                   ,const long double ymin, const long double ymax
@@ -10,6 +11,13 @@ height(height), width(width),
 xmin(xmin), xmax(xmax), 
 ymin(ymin), ymax(ymax),
 x(x), y(y), options(options) { }
+
+
+void _scatter::set_options(const graphoptions &options)
+{
+    this->options = options;
+}
+
 
 void _scatter::plot() 
 {
