@@ -13,7 +13,7 @@ public:
             ,std::vector<unsigned short>y
             ,const graphoptions &options);
     ~_scatter() = default;
-    void graph() override;
+    void plot() override;
 
 private:
     const size_t height; 

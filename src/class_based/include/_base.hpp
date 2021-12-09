@@ -30,7 +30,7 @@ class _base
 {
 
 public:
-    virtual void graph() = 0;
+    virtual void plot() = 0;
 
 protected:
     int strcol(const char *const str);

@@ -11,7 +11,7 @@ xmin(xmin), xmax(xmax),
 ymin(ymin), ymax(ymax),
 x(x), y(y), options(options) { }
 
-void _scatter::graph() 
+void _scatter::plot() 
 {
     
 }
