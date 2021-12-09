@@ -1,8 +1,5 @@
 #include "../include/_base.hpp"
-#include <iostream>
-#include <float.h>
-#include <math.h>
-#include <string.h>
+
 
 int _base::strcol(const char *const str)
 {
@@ -48,7 +45,7 @@ int _base::strcol(const char *const str)
 }
 
 
-std::string _base::wrap(const char *const str, const std::size_t line_length)
+std::string _base::wrap(const char *const str, const size_t line_length)
 {
 
     char words[strlen(str) + 1];
@@ -96,7 +93,7 @@ std::string _base::wrap(const char *const str, const std::size_t line_length)
 }
 
 
-std::size_t _base::outputlabel(const long double label, std::ostringstream &strm)
+size_t _base::outputlabel(const long double label, std::ostringstream &strm)
 {
 
     bool output = false;

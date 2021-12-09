@@ -2,8 +2,13 @@
 
 #include "_constants.hpp"
 #include <cstddef>
+#include <iostream>
 #include <sstream>
 #include <string>
+#include <vector>
+#include <float.h>
+#include <math.h>
+#include <string.h>
 
 typedef struct graphoptions
 {
@@ -26,9 +31,11 @@ class _base
 
 public:
     virtual void graph() = 0;
+
+protected:
     int strcol(const char *const str);
-    std::string wrap(const char *const str, const std::size_t line_length);
-    std::size_t outputlabel(const long double label, std::ostringstream &strm);
+    std::string wrap(const char *const str, const size_t line_length);
+    size_t outputlabel(const long double label, std::ostringstream &strm);
 
 private:
 
