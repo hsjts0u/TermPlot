@@ -1,4 +1,4 @@
-#include "../include/_base.hpp"
+#include <_base.hpp>
 
 
 int _base::strcol(const char *const str)

@@ -1,4 +1,4 @@
-#include "../include/_scatter.hpp"
+#include <_scatter.hpp>
 
 
 _scatter::_scatter(const size_t height, const size_t width
