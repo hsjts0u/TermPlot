@@ -14,7 +14,7 @@ public:
             ,const graphoptions &options);
     ~_scatter() = default;
     void set_options(const graphoptions & options);
-    void plot() override;
+    int plot() override;
 
 private:
     const size_t height; 

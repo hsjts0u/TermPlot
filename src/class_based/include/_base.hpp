@@ -9,6 +9,8 @@
 #include <float.h>
 #include <math.h>
 #include <string.h>
+#include <sys/ioctl.h>
+#include <unistd.h>
 
 typedef struct graphoptions
 {
@@ -30,7 +32,7 @@ class _base
 {
 
 public:
-    virtual void plot() = 0;
+    virtual int plot() = 0;
 
 protected:
     int strcol(const char *const str);

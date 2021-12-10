@@ -4,8 +4,8 @@ using namespace std;
 
 int main()
 {
-	const size_t height = 160;
-	const size_t width = 160;
+	const size_t height = 80;
+	const size_t width = 80;
 
 	const long double xmin = -20;
 	const long double xmax = 20;
