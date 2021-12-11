@@ -1,16 +1,21 @@
 #include <_scatter.hpp>
 
 
-_scatter::_scatter(const size_t height, const size_t width
-                  ,const long double xmin, const long double xmax
-                  ,const long double ymin, const long double ymax
-                  ,std::vector<unsigned short>x
-                  ,std::vector<unsigned short>y
+_scatter::_scatter(const size_t &height, const size_t &width
+                  ,const long double &xmin, const long double &xmax
+                  ,const long double &ymin, const long double &ymax
+                  ,const std::vector<double> &x
+                  ,const std::vector<double> &y
                   ,const graphoptions &options) :
 height(height), width(width), 
 xmin(xmin), xmax(xmax), 
 ymin(ymin), ymax(ymax),
-x(x), y(y), options(options) { }
+x(x), y(y), options(options) 
+{
+	assert(this->x.size() != 0);
+	assert(this->y.size() != 0);
+	assert(this->x.size() == this->y.size());
+}
 
 
 void _scatter::set_options(const graphoptions &options)
@@ -27,31 +32,100 @@ int _scatter::plot()
     const bool axisunitslabel = options.axisunitslabel;
     const char *const title = options.title;
     const unsigned int style = options.style;
-
-    if (x.size() != y.size()) return 1;
-    if (x.size() == 0) return 1;
-    if (y.size() == 0) return 1;
-
-    if (style >= (sizeof styles / sizeof styles[0])) return 1;
-    if (height == 0) return 1;
-    if (width == 0) return 1;
+	const unsigned int color = options.color;
 
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 
+	if (style >= (sizeof styles / sizeof styles[0])) 
+	{
+		std::cerr << "Style out of bound.\n";
+		return 1;
+	}
+
+    if (height == 0) 
+	{
+		std::cerr << "The height cannot be zero, use height=-1 for automatic height.\n";
+		return 1;
+	}
+    if (width == 0) 
+	{
+		std::cerr << "The width cannot be zero, use width=-1 for automatic height.\n";
+		return 1;
+	}
+	if (height == -1) height = w.ws_row * 4;
+	if (width == -1) width = w.ws_col * 2;
+
     const int aheight = height / 4;
     const int awidth = width / 2; 
 
-    if (aheight > w.ws_row) return 1;
-    if (awidth > w.ws_col) return 1;
-    if (xmin >= xmax) return 1;
-    if (ymin >= ymax) return 1;
+    if (aheight > w.ws_row)
+	{
+		std::cerr << "The height of the graph (" << aheight << ") is greater then the height of the terminal (" << w.ws_row << ").\n";
+		return 1;
+	}
+	if (awidth > w.ws_col)
+	{
+		std::cerr << "The width of the graph (" << awidth << ") is greater then the width of the terminal (" << w.ws_col << ").\n";
+		return 1;
+	}
+	
+	if (xmin == 0 and xmax == 0)
+	{
+		xmin = std::numeric_limits<double>::max();
+		xmax = std::numeric_limits<double>::min();
+
+		for (auto const &x_val : x)
+		{
+			if (x_val < xmin)
+				xmin = x_val;
+
+			if (x_val > xmax)
+				xmax = x_val;
+		}
+	}
+	if (ymin == 0 and ymax == 0)
+	{
+		ymin = std::numeric_limits<double>::max();
+		ymax = std::numeric_limits<double>::min();
+
+		for (auto const &y_val : y)
+		{
+			if (y_val < ymin)
+				ymin = y_val;
+
+			if (y_val > ymax)
+				ymax = y_val;
+		}
+	}
+    if (xmin >= xmax)
+	{
+		std::cerr << "xmin must be less than xmax.\n";
+		return 1;
+	}
+	if (ymin >= ymax)
+	{
+		std::cerr << "ymin must be less than ymax.\n";
+		return 1;
+	}
 
     const long double xscl = width / (xmax - xmin);
 	const long double yscl = height / (ymax - ymin);
 	const long double xaxis = width - (xmax * xscl);
 	const long double yaxis = ymax * yscl;
 	const int divisor = 2 * 4 * ((width / 160.0) > 1 ? (width / 160) + 1 : 1);
+
+	std::vector<std::vector<unsigned short>> array(height, std::vector<unsigned short>(width, 0));
+	for (unsigned int i = 0; i < x.size(); ++i)
+	{
+		if (x[i] >= xmin and x[i] < xmax and y[i] >= ymin and y[i] < ymax)
+		{
+			const long long ix = (x[i] * xscl) + xaxis;
+			const long long iy = (yaxis - (y[i] * yscl)) - 1;
+
+			array[ix][iy] = color + 1;
+		}
+	}
 
     setlocale(LC_CTYPE, "");
 

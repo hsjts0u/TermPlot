@@ -2,6 +2,7 @@
 
 #include "_constants.hpp"
 #include <cstddef>
+#include <cassert>
 #include <iostream>
 #include <sstream>
 #include <string>
