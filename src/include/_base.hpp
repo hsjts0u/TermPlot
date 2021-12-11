@@ -41,6 +41,6 @@ protected:
     size_t outputlabel(const long double label, std::ostringstream &strm);
 
 private:
-
+    /* empty */
 
 };

@@ -13,7 +13,12 @@ public:
             ,const std::vector<double> &y
             ,const graphoptions &options);
     ~_scatter() = default;
-    void set_options(const graphoptions & options);
+
+    void set_dims(const size_t &height, const size_t &width);
+    void set_xbounds(const double &xmin, const double &xmax);
+    void set_ybounds(const double &ymin, const double &ymax);
+    void set_data(const std::vector<double> &x, const std::vector<double> &y);
+    void set_options(const graphoptions &options);
     int plot() override;
 
 private:

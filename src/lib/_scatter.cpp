@@ -18,6 +18,37 @@ x(x), y(y), options(options)
 }
 
 
+void _scatter::set_dims(const size_t &height, const size_t &width)
+{
+	this->height = height;
+	this->width = width;
+}
+
+
+void _scatter::set_xbounds(const double &xmin, const double &xmax)
+{
+	this->xmin = xmin;
+	this->xmax = xmax;
+}
+
+
+void _scatter::set_ybounds(const double &ymin, const double &ymax)
+{
+	this->ymin = ymin;
+	this->ymax = ymax;
+}
+
+
+void _scatter::set_data(const std::vector<double> &x, const std::vector<double> &y)
+{
+	assert(this->x.size() != 0);
+	assert(this->y.size() != 0);
+	assert(this->x.size() == this->y.size());
+	this->x = x;
+	this->y = y;
+}
+
+
 void _scatter::set_options(const graphoptions &options)
 {
     this->options = options;
@@ -53,8 +84,8 @@ int _scatter::plot()
 		std::cerr << "The width cannot be zero, use width=-1 for automatic height.\n";
 		return 1;
 	}
-	if (height == -1) height = w.ws_row * 4;
-	if (width == -1) width = w.ws_col * 2;
+	if (height == (size_t)-1) height = w.ws_row * 4;
+	if (width == (size_t)-1) width = w.ws_col * 2;
 
     const int aheight = height / 4;
     const int awidth = width / 2; 
@@ -143,7 +174,7 @@ int _scatter::plot()
 		if (border and axislabel and axisunitslabel)
 		{
 			bool output = false;
-			long double label;
+			long double label = 0;
 			int adivisor = divisor;
 			if (i < yaxis)
 				adivisor = -adivisor;
