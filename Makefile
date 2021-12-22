@@ -1,11 +1,19 @@
 CXX = g++
-CFLAGS = -Wall -O2
+CFLAGS = --std=c++17 -Wall -O2
+PBFLAGS = --std=c++17 -Wall -O2 -fPIC -shared
 
 BUILDDIR = build
 
-TPINCLUDES = -Isrc/include
-TPLIB = src/lib
-TPLIB := $(shell find $(TPLIB) -name '*.cpp')
+TP_INC = -Isrc/include
+TP_LIB = src/lib
+TP_LIB := $(shell find $(TP_LIB) -name '*.cpp')
+
+PY_INC = $(shell python3 -m pybind11 --includes) $(shell python3-config --includes) 
+NP_INC = -I$(shell python3 -c "import numpy; print(numpy.get_include())")
+
+BINDSRC = src/_termplot_pybind.cpp
+
+PYTERMPLOT = _termplot$(shell python3-config --extension-suffix)
 
 CTEST_DIR = test/cpp_test
 CTEST_SRC = $(shell find $(CTEST_DIR) -name '*.cpp')
@@ -15,18 +23,19 @@ PTEST_DIR = test/python_test
 
 .phony: all test cpp_test clean
 
-mkdir:
-	- mkdir build
+$(PYTERMPLOT): mkdir $(BINDSRC) $(CTEST_SRC)
+	$(CXX) $(PBFLAGS) $(TP_INC) $(NP_INC) $(PY_INC) $(filter-out $<,$^) -o $(PYTERMPLOT)
 
-all: mkdir
+test: $(PYTERMPLOT)
 
-test: mkdir
-
-cpp_test: mkdir $(CTEST_OUT)
+cpp_test: mkdir $(CTEST_OUT) 
 
 $(BUILDDIR)/%.out: $(CTEST_DIR)/%.cpp
-	$(CXX) $(CFLAGS) $(TPINCLUDES) $(TPLIB) $^ -o $@
+	$(CXX) $(CFLAGS) $(TP_INC) $(TP_LIB) $^ -o $@
 
 clean:
 	rm -rf $(BUILDDIR)
+
+mkdir:
+	$(shell [ ! -d "build" ] && mkdir build)
 
