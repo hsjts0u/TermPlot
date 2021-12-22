@@ -49,8 +49,8 @@ PYBIND11_MODULE(TermPlot, m)
                     if (x_info.ndim != 1 or y_info.ndim != 1) 
                         throw std::runtime_error("NumPy array should have ndim=1!");
 
-                    std::vector<double> x_points (x_info.ptr, x_info.ptr + x_info.shape[0]);
-                    std::vector<double> y_points (y_info.ptr, y_info.ptr + y_info.shape[0]);
+                    std::vector<double> x_points ((double *)x_info.ptr, (double *)x_info.ptr + x_info.shape[0]);
+                    std::vector<double> y_points ((double *)y_info.ptr, (double *)y_info.ptr + y_info.shape[0]);
 
                     _scatter * obj = new _scatter(height, width, 
                                                   xmin, xmax, 
@@ -90,8 +90,8 @@ PYBIND11_MODULE(TermPlot, m)
                 if (x_info.ndim != 1 or y_info.ndim != 1) 
                     throw std::runtime_error("NumPy array should have ndim=1!");
 
-                std::vector<double> x_points (x_info.ptr, x_info.ptr + x_info.shape[0]);
-                std::vector<double> y_points (y_info.ptr, y_info.ptr + y_info.shape[0]);
+                std::vector<double> x_points ((double *)x_info.ptr, (double *)x_info.ptr + x_info.shape[0]);
+                std::vector<double> y_points ((double *)y_info.ptr, (double *)y_info.ptr + y_info.shape[0]);
             
                 m.set_data(x_points, y_points);
 

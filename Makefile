@@ -9,7 +9,7 @@ TP_LIB = src/lib
 TP_LIB := $(shell find $(TP_LIB) -name '*.cpp')
 
 PY_INC = $(shell python3 -m pybind11 --includes) $(shell python3-config --includes) 
-NP_INC = -I$(shell python3 -c "import numpy; print(numpy.get_include())")
+PB_INC = -Iextern/pybind11/include
 
 BINDSRC = src/_termplot_pybind.cpp
 
@@ -23,8 +23,8 @@ PTEST_DIR = test/python_test
 
 .phony: all test cpp_test clean
 
-$(PYTERMPLOT): mkdir $(BINDSRC) $(CTEST_SRC)
-	$(CXX) $(PBFLAGS) $(TP_INC) $(NP_INC) $(PY_INC) $(filter-out $<,$^) -o $(PYTERMPLOT)
+$(PYTERMPLOT): mkdir $(BINDSRC) $(TP_LIB)
+	$(CXX) $(PBFLAGS) $(TP_INC) $(PB_INC) $(NP_INC) $(PY_INC) $(filter-out $<,$^) -o $(BUILDDIR)/$(PYTERMPLOT)
 
 test: $(PYTERMPLOT)
 
