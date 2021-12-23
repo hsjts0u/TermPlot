@@ -6,12 +6,13 @@
 
 namespace py = pybind11;
 
-PYBIND11_MODULE(TermPlot, m)
+PYBIND11_MODULE(termplot, m)
 {
     
     m.doc() = "C++ plotting library for Python";
 
     py::class_<graphoptions>(m, "graphoptions")
+        .def(py::init<>())
         .def_readwrite("border", &graphoptions::border)
         .def_readwrite("axislabel", &graphoptions::axislabel)
         .def_readwrite("axisunitslabel", &graphoptions::axisunitslabel)
@@ -26,7 +27,7 @@ PYBIND11_MODULE(TermPlot, m)
             ,const std::vector<double> &
             ,const std::vector<double> &
             ,const graphoptions &>()
-        ) 
+        )
         .def(
             py::init(
                 [](const size_t &height, const size_t &width
@@ -76,7 +77,7 @@ PYBIND11_MODULE(TermPlot, m)
             "set_data", &_scatter::set_data
         )
         .def(
-            "set_data", [](_scatter &m, const py::buffer &x, const py::buffer &y) {
+            "set_data", [](_scatter &m, const py::array_t<double> &x, py::array_t<double> &y) {
                 
                 py::buffer_info x_info = x.request();
                 py::buffer_info y_info = y.request();
