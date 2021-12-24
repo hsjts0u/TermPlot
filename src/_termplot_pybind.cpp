@@ -16,6 +16,7 @@ PYBIND11_MODULE(termplot, m)
         .def_readwrite("border", &graphoptions::border)
         .def_readwrite("axislabel", &graphoptions::axislabel)
         .def_readwrite("axisunitslabel", &graphoptions::axisunitslabel)
+        .def_readwrite("title", &graphoptions::title)
         .def_readwrite("style", &graphoptions::style)
         .def_readwrite("color", &graphoptions::color);
 

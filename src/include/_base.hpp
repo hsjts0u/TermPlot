@@ -19,7 +19,7 @@ typedef struct graphoptions
     bool border = true;
     bool axislabel = true;
     bool axisunitslabel = true;
-    char *title = nullptr;
+    std::string title = "";
     unsigned int style = 2;
     unsigned int color = 2;
     graphoptions() = default;

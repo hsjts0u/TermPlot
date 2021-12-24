@@ -61,7 +61,7 @@ int _scatter::plot()
     const bool border = options.border;
     const bool axislabel = options.axislabel;
     const bool axisunitslabel = options.axisunitslabel;
-    const char *const title = options.title;
+    const char *const title = options.title.c_str();
     const unsigned int style = options.style;
 	const unsigned int color = options.color;
 
